@@ -23,10 +23,8 @@ class Usuario {
     }
 
     getBookNames() {
-        let bookNames = new Array;
-
-        this.libros.map(function(libro) {
-            bookNames.push(libro.nombre)    
+        let bookNames = this.libros.map(function(libro){
+            return libro.nombre;
         });
 
         return bookNames;
