@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Esto es un título</title>
+  </head>
+  <body>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <div><h3 style="text-align: center; margin-top: 16px;">Agrega un producto!</h3></div>
+      <form action="/api/productos" method="post">
+        <div style="margin-bottom: 16px;">
+            <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
+                <label for="title"> Título: </label>
+                <br>
+                <input type="text" name="title" style="margin-bottom: 16px;">
+            </div>
+            <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
+                <label for="price"> Precio: </label>
+                <br>
+                <input type="number" name="price" style="margin-bottom: 16px;" step=".01">
+            </div>
+            <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
+                <label for="thumbnail"> URL Image: </label>
+                <br>
+                <input type="text" name="thumbnail" style="margin-bottom: 16px;">
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <input type="submit" value="¡Agregar!">
+            </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

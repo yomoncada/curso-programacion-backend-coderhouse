@@ -2,10 +2,10 @@
   "name": "curso-programacion-backend-coderhouse",
   "version": "1.0.0",
   "description": "",
-  "main": "MoncadaYonathan.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node servidorConExpress.js",
-    "start-dev": "nodemon servidorConExpress.js"
+    "start": "node index.js",
+    "start-dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/yomoncada/curso-programacion-backend-coderhouse#readme",
   "dependencies": {
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "multer": "^1.4.4"
   }
 }
