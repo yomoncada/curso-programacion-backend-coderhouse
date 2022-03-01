@@ -1,0 +1,15 @@
+{{#if messages.length}}
+<div class="col-lg-4">
+    <div class="row">
+        <div class="col-lg-12">
+            {{#each messages}}
+                <div class="alert alert-light" role="alert">
+                    <b style="color: blue;">{{this.author}} </b>
+                    <span class="small" style="color: brown;">{{this.dateTime}}: </span>
+                    <i class="color: green;">{{this.text}}</i>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
+{{/if}}

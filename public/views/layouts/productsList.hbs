@@ -1,0 +1,22 @@
+{{#if products.length}}
+<div class="col-lg-4">
+    <table class="table table-dark">
+        <thead>
+            <tr class="text-center">
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Foto</th>
+            </tr>    
+        </thead>
+        <tbody>
+        {{#each products}}
+            <tr class="text-center">
+                <td>{{this.title}}</td>
+                <td>${{this.price}}</td>
+                <td><img class="w-25" src="{{this.thumbnail}}" alt="{{this.title}}"></td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>
+{{/if}}

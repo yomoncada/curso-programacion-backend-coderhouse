@@ -1,17 +1,18 @@
 {
-  "name": "practica_motores_de_plantilla",
+  "name": "websockets",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index.js",
-    "start-dev": "nodemon index.js"
+    "start": "node .",
+    "start-dev": "nodemon node ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.3",
-    "pug": "^3.0.2"
+    "express-handlebars": "^6.0.2",
+    "socket.io": "^4.1.3"
   }
 }

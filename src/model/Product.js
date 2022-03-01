@@ -1,5 +1,5 @@
 class Product {
-    constructor(data) {
+    constructor(data = []) {
         this.data = data;
     }
 
@@ -30,10 +30,10 @@ class Product {
         const index = this.data.findIndex((product) => product.id === +id);
 
         const product = {
-        ...this.data[index],
-        title,
-        price,
-        thumbnail
+                ...this.data[index],
+                title,
+                price,
+                thumbnail
         };
     
         this.data[index] = product;
