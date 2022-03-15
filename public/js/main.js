@@ -11,7 +11,7 @@ productForm.on('submit', (e) => {
 
     const product = {
         title: productTitle.val(),
-        price:productPrice.val(),
+        price: productPrice.val(),
         thumbnail: productThumbnail.val()
     };
 
@@ -20,7 +20,6 @@ productForm.on('submit', (e) => {
 })
 
 socket.on('products', products => {
-    console.log(products);
     getProductsLayout(products).then(html => {
         const container = $('#products');
         container.html(html);

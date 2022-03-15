@@ -13,25 +13,28 @@ const httpServer = new HttpServer(app)
 const io = new Socket(httpServer)
 
 const productApi = new Product();
-const messageApi = new Message('messages.json');
+const messageApi = new Message();
 
 io.on('connection', async socket => {
-    socket.emit('products', productApi.getAll())
+    const products = await productApi.getAll();
+    socket.emit('products', products)
 
-    socket.on('newProduct', (product) => {
-        productApi.add(product);
+    socket.on('newProduct', async (product) => {
+        await productApi.add(product);
         
-        io.sockets.emit('products', productApi.getAll());
+        const products = await productApi.getAll();
+
+        io.sockets.emit('products', products);
     })
 
     socket.emit('messages', await messageApi.getAll())
 
     socket.on('newMessage', async (message) => {
-        message.dateTime = new Date().toLocaleString();
-
         await messageApi.add(message);
 
-        io.sockets.emit('messages', await messageApi.getAll())
+        const messages = messageApi.getAll().getAll();
+
+        io.sockets.emit('messages', messages)
     })
 })
 

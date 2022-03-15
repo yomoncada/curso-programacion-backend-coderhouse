@@ -1,50 +1,64 @@
+const dbconfig = require('../db/config');
+const knex = require('knex')(dbconfig.mariaDB);
+
 class Product {
-    constructor(data = []) {
-        this.data = data;
+    constructor() {
     }
 
-    get(id) {
-        return this.data.find(product => product.id === +id);
+    async get(id) {
+        try {
+            const products = await knex.from('products')
+            .select('*')
+            .where('id', '=', id)
+
+            return products[0] ? products[0] : null;
+        } catch (error) {
+            throw new Error(`Hubo un error: ${error.message}`);
+        }
     }
 
-    getAll() {
-        const products = [...this.data];
+    async getAll() {
+        try {
+            const products = await knex.from('products')
+            .select('*')
 
-        return products;
+            return products ? products : [];
+        } catch (error) {
+            throw new Error(`Hubo un error: ${error.message}`);
+        }
     }
 
-    add({ title, price, thumbnail }) {
-        const product = {
-            id: this.data.length + 1,
-            title,
-            price,
-            thumbnail
-        };
-
-        this.data.push(product);
-        
-        return product;
-    }
-
-    edit({ id, title, price, thumbnail }) {
-        const index = this.data.findIndex((product) => product.id === +id);
-
-        const product = {
-                ...this.data[index],
+    async add({ title, price, thumbnail }) {
+        try {
+            const product = {
+                id: null,
                 title,
                 price,
                 thumbnail
-        };
-    
-        this.data[index] = product;
+            };
 
-        return this.data[index];
+            await knex('products').insert(product);
+
+            return product;
+        } catch (error) {
+            throw new Error(`Hubo un error: ${error.message}`);
+        }
     }
 
-    delete(id) {
-        const index = this.data.findIndex(product => product.id === +id);
+    async delete(id) {
+        try {
+            await this.knexObject('products').where({id: id}).del();
+        } catch (error) {
+            throw new Error(`Hubo un error: ${error.message}`);
+        }
+    }
 
-        this.data.splice(index, 1);
+    async deleteAll() {
+        try {
+            await this.knexObject('products').del();
+        } catch (error) {
+            throw new Error(`Hubo un error: ${error.message}`);
+        }
     }
 }
 

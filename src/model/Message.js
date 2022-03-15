@@ -1,44 +1,17 @@
-const fs = require('fs');
+const dbconfig = require('../db/config');
+const knex = require('knex')(dbconfig.sqlite3);
 
 class Message {
-    constructor(path = null) {
-        this.path = path;
-    }
-
-    async add({author, text, dateTime}) {
-        try {  
-            let message = {
-                id: 1,
-                author: author,
-                text: text,
-                dateTime: dateTime
-            };
-
-            let contents = await this.getAll();
-
-            if (contents.length > 0) {
-                message.id = contents[contents.length-1].id + 1;
-            } else {
-                contents = new Array;
-            }
-
-            contents.push(message);
-
-            await fs.promises.writeFile(this.path, JSON.stringify(contents, null, 2));
-
-            return message.id;
-        } catch (error) {
-            throw new Error(`Hubo un error: ${error.message}`);
-        }
+    constructor() {
     }
 
     async get(id) {
         try {
-            const contents = await fs.promises.readFile(this.path, 'utf-8');
-            const messages = JSON.parse(contents);
-            const message = messages.find(message => message.id == id);
+            const messages = await knex.from('messages')
+            .select('*')
+            .where('id', '=', id)
 
-            return message ? message : null;
+            return messages[0] ? messages[0] : null;
         } catch (error) {
             throw new Error(`Hubo un error: ${error.message}`);
         }
@@ -46,22 +19,35 @@ class Message {
 
     async getAll() {
         try {
-            const contents = await fs.promises.readFile(this.path, 'utf-8');
-            
-            return JSON.parse(contents);
+            const messages = await knex.from('messages')
+            .select('*')
+
+            return messages ? messages : [];
         } catch (error) {
             return [];
         }
     }
 
+    async add({author, text}) {
+        try {  
+            let message = {
+                id: null,
+                author: author,
+                text: text,
+                dateTime: null
+            };
+
+            await knex('messages').insert(message);
+
+            return message;
+        } catch (error) {
+            throw new Error(`Hubo un error: ${error.message}`);
+        }
+    }
+
     async delete(id) {
         try {
-            const messages = await this.getAll();
-            const newMessages = messages.filter((message) => message.id !== id);
-
-            await fs.promises.writeFile(this.path, JSON.stringify(newMessages, null, 2));
-
-            return newMessages;
+            await this.knexObject('messages').where({id: id}).del();
         } catch (error) {
             throw new Error(`Hubo un error: ${error.message}`);
         }
@@ -69,9 +55,7 @@ class Message {
 
     async deleteAll() {
         try {
-            await fs.promises.writeFile(this.path, JSON.stringify([], null, 2));
-
-            return [];
+            await this.knexObject('messages').del();
         } catch (error) {
             throw new Error(`Hubo un error: ${error.message}`);
         }
