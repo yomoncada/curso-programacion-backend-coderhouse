@@ -1,10 +1,18 @@
 const express = require('express')
+const path = require('path');
 
 const { Server: HttpServer } = require('http')
 const { Server: Socket } = require('socket.io')
+const { normalize, schema } = require('normalizr')
+/* const util = require('util')
 
-const Product = require('./model/Product')
-const Message = require('./model/Message')
+function print(objeto) {
+    console.log(util.inspect(objeto,false,12,true))
+} */
+
+const { Message } = require('./model/daos/index');
+
+const { generateArray } = require('./utils/index');
 
 const PORT = process.env.PORT || 8080
 
@@ -12,35 +20,56 @@ const app = express()
 const httpServer = new HttpServer(app)
 const io = new Socket(httpServer)
 
-const productApi = new Product();
-const messageApi = new Message();
+const messageApi = new Message;
+
+const authorSchema = new schema.Entity('author');
+const messageSchema = new schema.Entity('message', {
+    author: authorSchema
+}, {idAttribute: '_id'});
+const messagesSchema = new schema.Entity('messages', {
+    messages: [messageSchema]
+});
 
 io.on('connection', async socket => {
-    const products = await productApi.getAll();
-    socket.emit('products', products)
+    const messages = await messageApi.getAll();
 
-    socket.on('newProduct', async (product) => {
-        await productApi.add(product);
-        
-        const products = await productApi.getAll();
+    const messagesToNormalize = {
+        id: 'messages',
+        messages: messages
+    }
 
-        io.sockets.emit('products', products);
-    })
+    const normalizedMessages = normalize(messagesToNormalize, messagesSchema);
 
-    socket.emit('messages', await messageApi.getAll())
+    /* print(normalizedMessages); */
+
+    socket.emit('messages', normalizedMessages)
 
     socket.on('newMessage', async (message) => {
-        await messageApi.add(message);
+        await messageApi.create(message);
 
-        const messages = messageApi.getAll().getAll();
+        const messages = await messageApi.getAll();
 
-        io.sockets.emit('messages', messages)
+        const messagesToNormalize = {
+            id: 'messages',
+            messages: messages
+        }
+    
+        const normalizedMessages = normalize(messagesToNormalize, messagesSchema);
+
+        socket.emit('messages', normalizedMessages)
     })
 })
 
+app.use(express.static('public'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static('public'))
+
+app.set('views', './public/views');
+app.set('view engine', 'ejs');
+
+app.get('/api/productos-test', function(req, res) {
+    res.render('testProductsTable', {products: generateArray(5)});
+});
 
 const connectedServer = httpServer.listen(PORT, () => {
     console.log(`Server is up and running on port ${PORT}`)

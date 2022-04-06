@@ -4,9 +4,17 @@
         <div class="col-lg-12">
             {{#each messages}}
                 <div class="alert alert-light" role="alert">
-                    <b style="color: blue;">{{this.author}} </b>
-                    <span class="small" style="color: brown;">{{this.dateTime}}: </span>
-                    <i class="color: green;">{{this.text}}</i>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <img class="img-fluid rounded-circle" style="width: 50px; height: 50px;" src="{{this.author.avatar}}"/>
+                        </div>
+                        <div class="col-lg-9">
+                            <p class="font-weight-bold" style="color: blue;">{{this.author.id}} ({{this.author.alias}}) </p>
+                            <span class="small" style="color: brown;">{{this.dateTime}}: </span>
+                            <i style="color: green;">{{this.text}}</i>
+                        </div>
+                    </div>
+                    
                 </div>
             {{/each}}
         </div>
