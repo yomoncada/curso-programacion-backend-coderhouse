@@ -37,7 +37,7 @@ socket.on('products', products => {
 });
 
 function getProductsLayout(products) {
-    return fetch('views/layouts/productsList.hbs')
+    return fetch('/views/layouts/productsList.hbs')
         .then(response => response.text())
         .then(layout => {
             const template = Handlebars.compile(layout);
@@ -94,7 +94,7 @@ socket.on('messages', (messages) => {
 })
 
 function getMessagesLayout(messages) {
-    return fetch('views/layouts/messagesList.hbs')
+    return fetch('/views/layouts/messagesList.hbs')
         .then(response => response.text())
         .then(layout => {
             const template = Handlebars.compile(layout);

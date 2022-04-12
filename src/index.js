@@ -1,18 +1,15 @@
 const express = require('express')
 const path = require('path');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 const { Server: HttpServer } = require('http')
 const { Server: Socket } = require('socket.io')
 const { normalize, schema } = require('normalizr')
-/* const util = require('util')
 
-function print(objeto) {
-    console.log(util.inspect(objeto,false,12,true))
-} */
-
+const { DB_CONFIG } = require('./db/config');
+const appRoutes = require('./routers/index');
 const { Message } = require('./model/daos/index');
-
-const { generateArray } = require('./utils/index');
 
 const PORT = process.env.PORT || 8080
 
@@ -40,8 +37,6 @@ io.on('connection', async socket => {
 
     const normalizedMessages = normalize(messagesToNormalize, messagesSchema);
 
-    /* print(normalizedMessages); */
-
     socket.emit('messages', normalizedMessages)
 
     socket.on('newMessage', async (message) => {
@@ -67,8 +62,21 @@ app.use(express.urlencoded({ extended: true }))
 app.set('views', './public/views');
 app.set('view engine', 'ejs');
 
-app.get('/api/productos-test', function(req, res) {
-    res.render('testProductsTable', {products: generateArray(5)});
+app.use(session({
+    store: MongoStore.create({ mongoUrl: DB_CONFIG.mongodb.uri }),
+    secret: 'yonathan-secret-15',
+    resave: false,
+    saveUninitialized: false,
+    rolling: true,
+    cookie: {
+        maxAge: 60000
+    }
+}))
+
+app.use('/app', appRoutes);
+
+app.get('/', function(req, res) {
+    res.redirect('/app/auth/login');
 });
 
 const connectedServer = httpServer.listen(PORT, () => {
