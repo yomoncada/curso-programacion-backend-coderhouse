@@ -1,5 +1,5 @@
 const isLoggedIn = (req, res, next) => {
-    if (req.session?.name) {
+    if (req.isAuthenticated()) {
         next()
     } else {
         res.redirect('/app/auth/login')
@@ -7,7 +7,7 @@ const isLoggedIn = (req, res, next) => {
 }
 
 const canBeHere = (req, res, next)  => {
-    if (req.session?.name) {
+    if (req.isAuthenticated()) {
         next()
     } else {
         res.redirect('/app/auth/unathorized')

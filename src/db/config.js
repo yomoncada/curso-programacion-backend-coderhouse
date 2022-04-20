@@ -2,24 +2,22 @@ const path = require('path');
 require('dotenv').config()
 const firebaseConfig = require('../db/firebase/firebase.config.json');
 
-const MARIADB_HOST = process.env.MARIADB_HOST || '127.0.0.10';
-const MARIADB_PORT = process.env.MARIADB_PORT || 3306;
-const MARIADB_USER = process.env.MARIADB_USER || 'root';
-const MARIADB_PASSWORD = process.env.MARIADB_PASSWORD || '12345678';
-const MARIADB_DATABASE = process.env.MARIADB_DATABASE || 'ecommerce';
-
+const MARIADB_HOST = process.env.MARIADB_HOST;
+const MARIADB_PORT = process.env.MARIADB_PORT;
+const MARIADB_USER = process.env.MARIADB_USER;
+const MARIADB_PASSWORD = process.env.MARIADB_PASSWORD;
+const MARIADB_DATABASE = process.env.MARIADB_DATABASE;
 const SQLITE_FILENAME = process.env.SQLITE_FILENAME || path.resolve(__dirname, `./ecommerce.sqlite`);
-
-const MONGODB_USER = 'yomoncada';
-const MONGODB_PASSWORD = '123123123';
-const MONGODB_DOMAIN = 'ecommerce.gsqun.mongodb.net';
-const MONGODB_DATABASE = process.env.MONGODB_DATABASE || 'ecommerce';
+const MONGODB_USER = process.env.MONGODB_USER;
+const MONGODB_PASSWORD = process.env.MONGODB_PASSWORD;
+const MONGODB_DOMAIN = process.env.MONGODB_DOMAIN;
+const MONGODB_DATABASE = process.env.MONGODB_DATABASE;
 const MONGODB_URI = process.env.MONGODB_URI || `mongodb+srv://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_DOMAIN}/${MONGODB_DATABASE}?retryWrites=true&w=majority`;
 
 module.exports = {
     ENV: {
         PORT: process.env.PORT || 8080,
-        PERS: process.env.PERS || 'file'
+        PERS: process.env.PERS || 'mongodb'
     },
     DB_CONFIG: {
         mariadb: {
@@ -35,7 +33,7 @@ module.exports = {
         sqlite: {
             client: 'sqlite3',
             connection: {
-              filename: SQLITE_FILENAME
+              filename: SQLITE_FILENAME || path.resolve(__dirname, `./ecommerce.sqlite`)
             }
         },
         mongodb: {

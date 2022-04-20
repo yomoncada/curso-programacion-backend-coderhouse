@@ -1,10 +1,12 @@
 const { Router } = require('express');
-const { canBeHere } = require('../../middlewares/auth');
+const auth = require('../../middlewares/auth');
 
 const webRouter = new Router()
 
-webRouter.get('/home', canBeHere, (req, res) => {
-    res.render('pages/home.ejs', { name: req.session.name })
+webRouter.get('/home', auth.canBeHere, (req, res) => {
+    const user = req.user;
+
+    res.render('pages/home.ejs', { username: user.email })
 })
 
 module.exports = webRouter

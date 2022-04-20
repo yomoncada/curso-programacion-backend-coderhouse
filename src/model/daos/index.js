@@ -1,21 +1,26 @@
 const { ENV: { PERS } } = require('../../db/config');
 
-let Message;
+let MessagesDao;
+let UsersDao;
 
 switch(PERS) {
     case 'firebase':
-        Message = require('./messages/FirebaseMessagesDao');
+        MessagesDao = require('./messages/Messages.Firebase.dao');
+        UsersDao = require('./users/Users.Firebase.dao');
         break;
     case 'mongodb':
-        Message = require('./messages/MongoDBMessagesDao');
+        MessagesDao = require('./messages/Messages.MongoDB.dao');
+        UsersDao = require('./users/Users.MongoDB.dao');
         break;
     case 'file':
-        Message = require('./messages/FileMessagesDao');
+        MessagesDao = require('./messages/Messages.File.dao');
+        UsersDao = require('./users/Users.File.dao');
         break;
     default:
         throw new Error('Invalid persistent method');
 }
 
 module.exports = {
-    Message
+    MessagesDao,
+    UsersDao
 }

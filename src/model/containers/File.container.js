@@ -1,5 +1,6 @@
 const fs = require('fs');
-
+const { formatErrorObject } = require('../../utils/api.utils');
+const constants = require('../../constants/api.constants');
 class FileContainer {
     constructor(path = null) {
         this.path = path;
@@ -13,7 +14,8 @@ class FileContainer {
 
             return object ? object : null;
         } catch (error) {
-            throw new Error(`Hubo un error: ${error.message}`);
+            const newError = formatErrorObject(INTERNAL_ERROR.tag, error.message);
+            throw new Error(JSON.stringify(newError));
         }
     }
 
@@ -48,7 +50,8 @@ class FileContainer {
 
             return object.id;
         } catch (error) {
-            throw new Error(`Hubo un error: ${error.message}`);
+            const newError = formatErrorObject(INTERNAL_ERROR.tag, error.message);
+            throw new Error(JSON.stringify(newError));
         }
     }
 
@@ -69,7 +72,8 @@ class FileContainer {
 
             return contents[index];
         } catch (error) {
-            throw new Error(`Hubo un error: ${error.message}`);
+            const newError = formatErrorObject(INTERNAL_ERROR.tag, error.message);
+            throw new Error(JSON.stringify(newError));
         }
     }
 
@@ -82,7 +86,8 @@ class FileContainer {
 
             return newData;
         } catch (error) {
-            throw new Error(`Hubo un error: ${error.message}`);
+            const newError = formatErrorObject(INTERNAL_ERROR.tag, error.message);
+            throw new Error(JSON.stringify(newError));
         }
     }
 
@@ -92,7 +97,8 @@ class FileContainer {
 
             return [];
         } catch (error) {
-            throw new Error(`Hubo un error: ${error.message}`);
+            const newError = formatErrorObject(INTERNAL_ERROR.tag, error.message);
+            throw new Error(JSON.stringify(newError));
         }
     }
 }

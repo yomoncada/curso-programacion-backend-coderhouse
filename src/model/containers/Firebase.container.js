@@ -1,6 +1,7 @@
 const admin = require("firebase-admin");
 const { getFirestore } = require("firebase-admin/firestore");
 const serviceAccount = require("../../db/firebase/firebase.config.json");
+const { formatErrorObject } = require('../../utils/api.utils');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -22,7 +23,8 @@ class FirebaseDB {
                 ...doc.data()
             };
         } catch (error) {
-            throw new Error(`Hubo un error: ${error.message}`);
+            const newError = formatErrorObject(INTERNAL_ERROR.tag, error.message);
+            throw new Error(JSON.stringify(newError));
         }
     }
 
@@ -36,7 +38,8 @@ class FirebaseDB {
                 ...doc.data()
             }));
         } catch (error) {
-            throw new Error(`Hubo un error: ${error.message}`);
+            const newError = formatErrorObject(INTERNAL_ERROR.tag, error.message);
+            throw new Error(JSON.stringify(newError));
         }
     }
 
@@ -46,7 +49,8 @@ class FirebaseDB {
 
             return await docRef.set(data);
         } catch (error) {
-            throw new Error(`Hubo un error: ${error.message}`);
+            const newError = formatErrorObject(INTERNAL_ERROR.tag, error.message);
+            throw new Error(JSON.stringify(newError));
         }
     }
 
@@ -56,7 +60,8 @@ class FirebaseDB {
 
             return await docRef.update(data);
         } catch (error) {
-            throw new Error(`Hubo un error: ${error.message}`);
+            const newError = formatErrorObject(INTERNAL_ERROR.tag, error.message);
+            throw new Error(JSON.stringify(newError));
         }
     }
 
@@ -66,7 +71,8 @@ class FirebaseDB {
             
             return await docRef.delete();
         } catch (error) {
-            throw new Error(`Hubo un error: ${error.message}`);
+            const newError = formatErrorObject(INTERNAL_ERROR.tag, error.message);
+            throw new Error(JSON.stringify(newError));
         }
     }
 }
