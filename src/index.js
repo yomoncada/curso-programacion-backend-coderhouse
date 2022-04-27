@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express')
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
@@ -6,12 +8,23 @@ const passport = require('./middlewares/passport');
 const { Server: HttpServer } = require('http')
 const { Server: Socket } = require('socket.io')
 const { normalize, schema } = require('normalizr')
+const minimist = require('minimist');
 
 const { DB_CONFIG } = require('./db/config');
-const appRoutes = require('./routers/index');
+const appRoutes = require('./routers/app.routes.js');
+const apiRoutes = require('./routers/api.routes.js');
 const { MessagesDao } = require('./model/daos/index');
 
-const PORT = process.env.PORT || 8080
+const args = minimist(process.argv.slice(2), {
+    default: {
+      PORT: 8080,
+    },
+    alias: {
+      p: 'PORT'
+    }
+});
+
+const PORT = args.PORT;
 
 const app = express()
 const httpServer = new HttpServer(app)
@@ -37,7 +50,7 @@ app.set('view engine', 'ejs');
 app.use(session({
     name: 'some-session',
     store: MongoStore.create({ mongoUrl: DB_CONFIG.mongodb.uri }),
-    secret: 'yonathan-secret-15',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     rolling: true,
@@ -50,9 +63,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/app', appRoutes);
+app.use('/api', apiRoutes);
 
 app.get('/', function(req, res) {
     res.redirect('/app/auth/login');
+});
+
+app.get('/info', (req, res) => {
+    res.render('pages/info.ejs', { process: process, cwd: process.cwd(), rss: process.memoryUsage().rss, argv: process.argv.slice(2) });
 });
 
 const connectedServer = httpServer.listen(PORT, () => {
