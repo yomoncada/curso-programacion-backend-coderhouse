@@ -1,6 +1,4 @@
 const getRandoms = (number) => {
-    console.log(number);
-
     let randomNumbers = [];
 
     for (let i = 0; i < number; i++) {
