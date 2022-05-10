@@ -1,19 +1,15 @@
 const express = require('express');
 const randomRouter = express.Router();
-const { fork } = require('child_process');
-
+const { getRandoms } = require('../../utils/random.utils');
 
 randomRouter.get('/', (req, res) => {
     const { cant } = req.query;
 
     let number = cant ?? 100000000;
 
-    const randoms = fork('./randoms.js', [`${number}`]);
-
-    randoms.send('start');
-    randoms.on('message', (data) => {
-        res.send(`El resultado es ${data}`);
-    })
+    const randoms = getRandoms(number);
+    
+    res.send(`El resultado es ${randoms}`);
 });
 
 module.exports = randomRouter;

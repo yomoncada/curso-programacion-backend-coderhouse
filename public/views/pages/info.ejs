@@ -13,21 +13,21 @@
                 <div class="col-lg-4">
                     <div class="row">
                         <div class="col-lg-12 mb-5">
-                            <h3>Argumentos de entrada: <%= argv %></h3>
+                            <h3>Argumentos de entrada: <%= info.inputArguments %></h3>
                             <br>
-                            <h3>Cantidad de procesadores: <%= cpus %></h3>
+                            <h3>Cantidad de procesadores: <%= info.cpus %></h3>
                             <br>
-                            <h3>Nombre de la plataforma: <%= process.platform %></h3>
+                            <h3>Nombre de la plataforma: <%= info.platformName %></h3>
                             <br>
-                            <h3>Versión de node.js: <%= process.version %></h3>
+                            <h3>Versión de node.js: <%= info.nodeJsVersion %></h3>
                             <br>
-                            <h3>Memoria total reservada: <%= rss %></h3>
+                            <h3>Memoria total reservada: <%= info.reservedTotalMemory %></h3>
                             <br>
-                            <h3>Path de ejecución: <%= process.execPath %></h3>
+                            <h3>Path de ejecución: <%= info.executionPath %></h3>
                             <br>
-                            <h3>Process id: <%= process.pid %></h3>
+                            <h3>Process id: <%= info.processId %></h3>
                             <br>
-                            <h3>Carpeta del proyecto: <%= cwd %></h3>
+                            <h3>Carpeta del proyecto: <%= info.projectFolder %></h3>
                         </div>
                     </div>
                 </div>

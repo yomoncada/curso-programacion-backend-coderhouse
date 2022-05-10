@@ -3,10 +3,10 @@ const auth = require('../../middlewares/auth');
 
 const webRouter = new Router()
 
-webRouter.get('/home', auth.canBeHere, (req, res) => {
+webRouter.get('/home', /* auth.canBeHere,  */(req, res) => {
     const user = req.user;
 
-    res.render('pages/home.ejs', { username: user.email })
+    res.render('pages/home.ejs', { username: '123' })
 })
 
 module.exports = webRouter

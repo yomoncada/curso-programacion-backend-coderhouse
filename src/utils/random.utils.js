@@ -22,7 +22,6 @@ const getRandoms = (number) => {
     return result;
 }
 
-process.on('message', () => {
-    const randoms = getRandoms(process.argv[2]);
-    process.send(randoms);
-})
+module.exports = {
+    getRandoms
+}
