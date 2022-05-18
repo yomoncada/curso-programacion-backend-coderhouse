@@ -6,7 +6,8 @@ const logger = require('../utils/logger.utils');
 const rootRouter = express.Router();
 
 rootRouter.get('/', function(req, res) {
-    res.redirect('/app/auth/login');
+    /* res.redirect('/app/auth/login'); */
+    res.send('<h1>Hello from Heroku</h1>');
 });
 
 rootRouter.get('/info', (req, res) => {

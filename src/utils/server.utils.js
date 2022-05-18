@@ -93,7 +93,7 @@ const init = (args) => {
 
                     const products = await Product.getAll();
 
-                    io.emit('products', products);
+                    socket.emit('products', products);
                 } catch (error) {
                     logger.write('error', `Ocurrio un error: ${error.message} en la api de productos.`)
                 }
