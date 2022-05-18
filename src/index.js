@@ -1,11 +1,11 @@
 require('dotenv').config()
 const os = require('os');
 const cluster = require('cluster');
-const minimist = require('minimist');
+/* const minimist = require('minimist'); */
 
 const server = require('./utils/server.utils');
 
-const args = minimist(process.argv.slice(2), {
+/* const args = minimist(process.argv.slice(2), {
     default: {
       PORT: 8080,
       MODE: 'FORK'
@@ -14,7 +14,12 @@ const args = minimist(process.argv.slice(2), {
       p: 'PORT',
       m: 'MODE'
     }
-});
+}); */
+
+const args = {
+    PORT: process.env.PORT || 8080,
+    MODE: process.env.MODE || 'FORK'
+};
 
 const numCPUs = os.cpus().length;
 
