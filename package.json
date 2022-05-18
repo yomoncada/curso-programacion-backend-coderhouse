@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "node benchmark.js",
-    "start": "node .",
+    "start": "node index.js",
     "profiling": "0x .",
     "start-dev": "nodemon node ."
   },
