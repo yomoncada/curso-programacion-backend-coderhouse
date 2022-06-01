@@ -8,9 +8,7 @@ const { Server: SocketServer } = require('socket.io')
 const { normalize, schema } = require('normalizr')
 
 const { DB_CONFIG } = require('../db/config');
-const appRoutes = require('../routers/app.routes.js');
-const apiRoutes = require('../routers/api.routes.js');
-const rootRoutes = require('../routers/root.routes.js');
+const routes = require('../routers/index.js');
 const { MessagesDao, ProductsDao } = require('../model/daos/index');
 const logger = require('../utils/logger.utils');
 
@@ -59,9 +57,7 @@ const init = (args) => {
         next();
     })
 
-    app.use('/app', appRoutes);
-    app.use('/api', apiRoutes);
-    app.use(rootRoutes);
+    app.use(routes);
 
     const connectedServer = httpServer.listen(PORT, () => {
         console.log(`Server is up and running on port ${PORT}`)

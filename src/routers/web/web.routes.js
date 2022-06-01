@@ -1,12 +1,16 @@
 const { Router } = require('express');
+const {
+    renderHome
+} = require('../../controllers/web.controllers');
 const auth = require('../../middlewares/auth');
+const logger = require('../../utils/logger.utils');
 
-const webRouter = new Router()
+const webRouter = new Router();
 
-webRouter.get('/home', /* auth.canBeHere,  */(req, res) => {
-    const user = req.user;
+webRouter.get('/', auth.isLoggedIn, renderHome);
+webRouter.all('*', (req, res) => {
+    logger.write('warn', `La ruta [${req.method}] ${req.protocol + '://' + req.get('host') + req.originalUrl} es inexistente en el servidor.`);
+    res.json({status: false});
+});
 
-    res.render('pages/home.ejs', { username: '123' })
-})
-
-module.exports = webRouter
+module.exports = webRouter;

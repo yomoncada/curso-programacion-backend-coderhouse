@@ -1,15 +1,10 @@
-const express = require('express');
-const randomRouter = express.Router();
-const { getRandoms } = require('../../utils/random.utils');
+const { Router } = require('express');
+const {
+    getRandoms
+} = require('../../controllers/randoms.controllers');
 
-randomRouter.get('/', (req, res) => {
-    const { cant } = req.query;
+const randomRouter = new Router();
 
-    let number = cant ?? 100000000;
-
-    const randoms = getRandoms(number);
-    
-    res.send(`El resultado es ${randoms}`);
-});
+randomRouter.get('/', getRandoms);
 
 module.exports = randomRouter;

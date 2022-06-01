@@ -1,6 +1,7 @@
 const { ENV: { PERS } } = require('../../db/config');
 
 let MessagesDao;
+let ProductsDao;
 let UsersDao;
 
 switch(PERS) {
