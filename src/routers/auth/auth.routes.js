@@ -5,25 +5,25 @@ const {
     redirectToHome,
     logout
 } = require('../../controllers/auth.controllers');
-const auth = require('../../middlewares/auth');
-const passport = require('../../middlewares/passport');
+const authMiddleware = require('../../middlewares/auth');
+const passportMiddleware = require('../../middlewares/passport');
 
 const authRouter = new Router()
 
 authRouter.route('/login')
     .get(renderLogin)
     .post(
-        passport.authenticate('login', { failureRedirect: '/login-error' }), 
+        passportMiddleware.authenticate('login', { failureRedirect: '/login-error' }), 
         redirectToHome
     );
 
 authRouter.route('/register')
     .get(renderRegister)
     .post(
-        passport.authenticate('register', { failureRedirect: '/register-error' }), 
+        passportMiddleware.authenticate('register', { failureRedirect: '/register-error' }), 
         redirectToHome
     );
 
-authRouter.get('/logout', auth.isLoggedIn, logout)
+authRouter.get('/logout', authMiddleware.isLoggedIn, logout)
 
 module.exports = authRouter

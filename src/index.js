@@ -3,7 +3,7 @@ const os = require('os');
 const cluster = require('cluster');
 /* const minimist = require('minimist'); */
 
-const server = require('./utils/server.utils');
+const serverUtil = require('./utils/server.utils');
 
 /* const args = minimist(process.argv.slice(2), {
     default: {
@@ -39,11 +39,11 @@ if (args.MODE == 'CLUSTER') {
     } else {
         console.log(`Worker ${process.pid} started`);
 
-        server.init(args);
+        serverUtil.init(args);
     }
 } else {
     console.log(`1 process was taken by node.`);
     console.log(`Process ${process.pid} is running`);
 
-    server.init(args);
+    serverUtil.init(args);
 }
