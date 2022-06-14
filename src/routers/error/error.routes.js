@@ -1,12 +1,19 @@
 const { Router } = require('express');
-const {
-    loginError,
-    registerError
-} = require('../../controllers/error.controllers');
+const ErrorControllers = require('../../controllers/error.controllers');
 
-const errorRouter = new Router();
+const router = new Router();
 
-errorRouter.get('/login-error', loginError);
-errorRouter.get('/register-error', registerError);
+class ErrorRoutes {
+    constructor() {
+      this.controller = new ErrorControllers();
+    }
 
-module.exports = errorRouter;
+    initialize(prefix = "") {
+        router.get(`${prefix}/login-error`, this.controller.loginError);
+        router.get(`${prefix}/register-error`, this.controller.registerError);
+
+        return router;
+    }
+}
+
+module.exports = new ErrorRoutes();

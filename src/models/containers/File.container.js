@@ -1,6 +1,14 @@
 const fs = require('fs');
 const { formatErrorObject } = require('../../utils/api.utils');
-const constants = require('../../constants/api.constants');
+const apiConstants = require('../../utils/constants/api.constants');
+
+const { 
+    STATUS: { 
+      INTERNAL_ERROR,
+      NOT_FOUND
+    }
+} = apiConstants;
+
 class FileContainer {
     constructor(path = null) {
         this.path = path;

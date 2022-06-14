@@ -1,23 +1,25 @@
-const { ProductsDao } = require('../model/daos/index');
-const productContainer = new ProductsDao;
+const ProductRepository = require('../repositories/product.repository')
 
-const getAll = async () => {
-    try {
-        return await productContainer.getAll();
-    } catch (error) {
-        throw new Error(error.message);
+class ProductService {
+    constructor() {
+        this.ProductRepository = new ProductRepository;
+    }
+
+    async getAllProducts() {
+        try {
+            return await this.ProductRepository.getAll();
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+
+    async createProduct(product) {
+        try {
+            return await this.ProductRepository.create(product);
+        } catch (error) {
+            throw new Error(error.message);
+        }
     }
 }
 
-const create = async (product) => {
-    try {
-        return await productContainer.create(product);
-    } catch (error) {
-        throw new Error(error.message);
-    }
-}
-
-module.exports = {
-    getAll,
-    create
-}
+module.exports = new ProductService();

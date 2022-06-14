@@ -1,34 +1,33 @@
-const { UsersDao } = require('../model/daos/index');
-const userContainer = new UsersDao;
+const UserRepository = require('../repositories/user.repository')
 
-const get = async (id) => {
-    try {
-        return await userContainer.get(id);
-    } catch (error) {
-        throw new Error(error.message);
+class UserService {
+    constructor() {
+        this.UserRepository = new UserRepository;
+    }
+
+    async getUser(id) {
+        try {
+            return await this.UserRepository.get(id);
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+
+    async getUserByEmail(email) {
+        try {
+            return await this.UserRepository.getByEmail(email);
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+
+    async createUser(user) {
+        try {
+            return await this.UserRepository.create(user);
+        } catch (error) {
+            throw new Error(error.message);
+        }
     }
 }
 
-const getByEmail = async (email) => {
-    try {
-        return await userContainer.getByEmail(email);
-    } catch (error) {
-        throw new Error(error.message);
-    }
-}
-
-const create = async (user) => {
-    try {
-        user.createdAt = Date.now();
-        user.updatedAt = Date.now();
-        return await userContainer.create(user);
-    } catch (error) {
-        throw new Error(error.message);
-    }
-}
-
-module.exports = {
-    get,
-    getByEmail,
-    create
-}
+module.exports = new UserService();

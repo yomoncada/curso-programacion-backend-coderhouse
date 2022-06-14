@@ -11,6 +11,8 @@ const MessageSchema = new mongoose.Schema({
     },
     text: { type: String, required: true },
     dateTime: { type: Date, required: true },
+    createdAt: { type: Date, required: true },
+    updatedAt: { type: Date, required: true }
 });
 
 module.exports = MessageSchema;

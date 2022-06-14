@@ -2,6 +2,14 @@ const admin = require("firebase-admin");
 const { getFirestore } = require("firebase-admin/firestore");
 const serviceAccount = require("../../db/firebase/firebase.config.json");
 const { formatErrorObject } = require('../../utils/api.utils');
+const apiConstants = require('../../utils/constants/api.constants');
+
+const { 
+    STATUS: { 
+      INTERNAL_ERROR,
+      NOT_FOUND
+    }
+} = apiConstants;
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)

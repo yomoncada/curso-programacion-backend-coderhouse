@@ -1,13 +1,12 @@
 const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const passportMiddleware = require('../middlewares/passport');
-
 const { Server: HttpServer } = require('http')
 const { Server: SocketServer } = require('socket.io')
 
 const { DB_CONFIG } = require('../db/config');
-const routes = require('../routers/index.js');
+const routes = require('../routers/app.router.js');
+const passportMiddleware = require('../middlewares/passport.middleware');
 const socketUtil = require('../utils/socket.utils');
 const loggerUtil = require('../utils/logger.utils');
 

@@ -1,29 +1,34 @@
 const { Router } = require('express');
-const {
-    renderLogin,
-    renderRegister,
-    redirectToHome,
-    logout
-} = require('../../controllers/auth.controllers');
-const authMiddleware = require('../../middlewares/auth');
-const passportMiddleware = require('../../middlewares/passport');
+const AuthControllers = require('../../controllers/auth.controllers');
+const authMiddleware = require('../../middlewares/auth.middleware');
+const passportMiddleware = require('../../middlewares/passport.middleware');
 
-const authRouter = new Router()
+const router = new Router()
 
-authRouter.route('/login')
-    .get(renderLogin)
-    .post(
-        passportMiddleware.authenticate('login', { failureRedirect: '/login-error' }), 
-        redirectToHome
-    );
+class AuthRoutes {
+    constructor() {
+      this.controller = new AuthControllers();
+    }
 
-authRouter.route('/register')
-    .get(renderRegister)
-    .post(
-        passportMiddleware.authenticate('register', { failureRedirect: '/register-error' }), 
-        redirectToHome
-    );
+    initialize(prefix = "") {
+        router.route(`${prefix}/login`)
+            .get(this.controller.renderLogin)
+            .post(
+                passportMiddleware.authenticate('login', { failureRedirect: '/login-error' }), 
+                this.controller.redirectToHome
+            );
 
-authRouter.get('/logout', authMiddleware.isLoggedIn, logout)
+        router.route(`${prefix}/register`)
+            .get(this.controller.renderRegister)
+            .post(
+                passportMiddleware.authenticate('register', { failureRedirect: '/register-error' }), 
+                this.controller.redirectToHome
+            );
 
-module.exports = authRouter
+        router.get(`${prefix}/logout`, authMiddleware.isLoggedIn, this.controller.logout);
+
+        return router;
+    }
+}
+
+module.exports = new AuthRoutes();

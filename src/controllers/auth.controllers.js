@@ -1,32 +1,55 @@
-const renderLogin = (req, res, next) => res.render('pages/login.ejs');
-
-const renderRegister = (req, res, next) => res.render('pages/register.ejs');
-
-const redirectToHome = (req, res, next) => res.redirect('/');
-
-const logout = (req, res, next) => {
-    try {
-        const user = req.user;
-
-        req.logOut();
-
-        req.session.destroy(error => {
-            res.clearCookie('some-session');
-
-            if (error) {
-                res.redirect('/')
-            } else {
-                res.render('pages/logout.ejs', { username: user.email })
-            }
-        });
-    } catch (error) {
-        throw new Error(error.message);
+class AuthControllers {
+    constructor(service) {
+        this.service = service;
+        this.renderLogin = this.renderLogin.bind(this);
+        this.renderRegister = this.renderRegister.bind(this);
+        this.redirectToHome = this.redirectToHome.bind(this);
+        this.logout = this.logout.bind(this);
     }
-};
 
-module.exports = {
-    renderLogin,
-    renderRegister,
-    redirectToHome,
-    logout
+    renderLogin(req, res, next) {
+        try {
+            res.render('pages/login.ejs');
+        } catch(error) {
+            next(error);
+        }
+    };
+
+    renderRegister(req, res, next) {
+        try {
+            res.render('pages/register.ejs');
+        } catch(error) {
+            next(error);
+        }
+    };
+
+    redirectToHome(req, res, next) {
+        try {
+            res.redirect('/');
+        } catch(error) {
+            next(error);
+        }
+    };
+
+    logout(req, res, next) {
+        try {
+            const user = req.user;
+
+            req.logOut();
+
+            req.session.destroy(error => {
+                res.clearCookie('some-session');
+
+                if (error) {
+                    res.redirect('/')
+                } else {
+                    res.render('pages/logout.ejs', { username: user.email })
+                }
+            });
+        } catch(error) {
+            next(error);
+        }
+    };   
 }
+
+module.exports = AuthControllers;

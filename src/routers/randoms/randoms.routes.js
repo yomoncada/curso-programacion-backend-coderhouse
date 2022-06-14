@@ -1,10 +1,18 @@
 const { Router } = require('express');
-const {
-    getRandoms
-} = require('../../controllers/randoms.controllers');
+const randomControllers = require('../../controllers/random.controllers');
 
-const randomRouter = new Router();
+const router = new Router();
 
-randomRouter.get('/', getRandoms);
+class randomRoutes {
+    constructor() {
+      this.controller = new randomControllers();
+    }
 
-module.exports = randomRouter;
+    initialize(prefix = "") {
+        router.get(`${prefix}/`, this.controller.getRandoms);
+
+        return router;
+    }
+}
+
+module.exports = new randomRoutes();

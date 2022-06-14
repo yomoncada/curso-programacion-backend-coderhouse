@@ -1,12 +1,20 @@
 const { Router } = require('express');
-const {
-    renderInfo
-} = require('../../controllers/general.controllers');
 const compression = require('compression');
+const generalControllers = require('../../controllers/general.controllers');
 
-const generalRouter = new Router();
+const router = new Router();
 
-generalRouter.get('/info', renderInfo);
-generalRouter.get('/info-compression', compression(), renderInfo);
+class generalRoutes {
+    constructor() {
+      this.controller = new generalControllers();
+    }
 
-module.exports = generalRouter;
+    initialize(prefix = "") {
+        router.get(`${prefix}/info`, this.controller.renderInfo);
+        router.get(`${prefix}/info-compression`, compression(), this.controller.renderInfo)   
+
+        return router;
+    }
+}
+
+module.exports = new generalRoutes();

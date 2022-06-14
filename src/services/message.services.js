@@ -1,23 +1,25 @@
-const { MessagesDao } = require('../model/daos/index');
-const messageContainer = new MessagesDao;
+const MessageRepository = require('../repositories/message.repository')
 
-const getAll = async () => {
-    try {
-        return await messageContainer.getAll();
-    } catch (error) {
-        throw new Error(error.message);
+class MessageService {
+    constructor() {
+        this.MessageRepository = new MessageRepository;
+    }
+
+    async getAllMessages() {
+        try {
+            return await this.MessageRepository.getAll();
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+
+    async createMessage(message) {
+        try {
+            return await this.MessageRepository.create(message);
+        } catch (error) {
+            throw new Error(error.message);
+        }
     }
 }
 
-const create = async (message) => {
-    try {
-        return await messageContainer.create(message);
-    } catch (error) {
-        throw new Error(error.message);
-    }
-}
-
-module.exports = {
-    getAll,
-    create
-}
+module.exports = new MessageService();

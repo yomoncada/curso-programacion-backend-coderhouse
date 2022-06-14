@@ -1,16 +1,23 @@
 const { Router } = require('express');
-const {
-    renderHome
-} = require('../../controllers/web.controllers');
-const authMiddleware = require('../../middlewares/auth');
+const WebControllers = require('../../controllers/web.controllers');
+const authMiddleware = require('../../middlewares/auth.middleware');
 const loggerUtil = require('../../utils/logger.utils');
 
-const webRouter = new Router();
+const router = new Router();
+class Web {
+    constructor() {
+      this.controller = new WebControllers();
+    }
 
-webRouter.get('/', authMiddleware.isLoggedIn, renderHome);
-webRouter.all('*', (req, res) => {
-    loggerUtil.write('warn', `La ruta [${req.method}] ${req.protocol + '://' + req.get('host') + req.originalUrl} es inexistente en el servidor.`);
-    res.json({status: false});
-});
+    initialize(prefix = "") {
+        router.get(`${prefix}/`, authMiddleware.isLoggedIn, this.controller.renderHome);
+        router.all('*', (req, res) => {
+            loggerUtil.write('warn', `La ruta [${req.method}] ${req.protocol + '://' + req.get('host') + req.originalUrl} es inexistente en el servidor.`);
+            res.json({status: false});
+        });
 
-module.exports = webRouter;
+        return router;
+    }
+}
+
+module.exports = new Web();

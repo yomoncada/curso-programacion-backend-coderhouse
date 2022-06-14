@@ -1,14 +1,14 @@
 const { DB_CONFIG: dbconfig } = require('../../db/config');
 const mongoose = require('mongoose');
 const { formatErrorObject } = require('../../utils/api.utils');
-const constants = require('../../constants/api.constants');
+const apiConstants = require('../../utils/constants/api.constants');
 
 const { 
     STATUS: { 
       INTERNAL_ERROR,
       NOT_FOUND
     }
-} = constants;
+} = apiConstants;
 
 class MongoDBContainer {
     constructor(collection, schema) {

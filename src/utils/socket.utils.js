@@ -1,8 +1,8 @@
 
 const { normalize, schema } = require('normalizr')
 
-const productService = require('../services/product.services');
-const messageService = require('../services/message.services');
+const ProductService = require('../services/product.services');
+const MessageService = require('../services/message.services');
 const loggerUtil = require('./logger.utils');
 
 const authorSchema = new schema.Entity('author');
@@ -17,7 +17,7 @@ const eventsHandler = async (io, socket) => {
     try {
         const getMessages = async () => {
             try {
-                const messages = await messageService.getAll();
+                const messages = await MessageService.getAllMessages();
         
                 const messagesToNormalize = {
                     id: 'messages',
@@ -32,7 +32,7 @@ const eventsHandler = async (io, socket) => {
 
         const getProducts = async () => {
             try {
-                return await productService.getAll();
+                return await ProductService.getAllProducts();
             } catch (error) {
                 throw new Error(error.message);
             }
@@ -40,9 +40,9 @@ const eventsHandler = async (io, socket) => {
         
         const createMessage = async (message) => {
             try {
-                await messageService.create(message);
+                await MessageService.createMessage(message);
         
-                const messages = await messageService.getAll();
+                const messages = await MessageService.getAllMessages();
         
                 const messagesToNormalize = {
                     id: 'messages',
@@ -59,9 +59,9 @@ const eventsHandler = async (io, socket) => {
         
         const createProduct = async (product) => {
             try {
-                await productService.create(product);
+                await ProductService.createProduct(product);
         
-                const products = await productService.getAll();
+                const products = await ProductService.getAllProducts();
         
                 socket.emit('products', products);
             } catch (error) {
