@@ -43,7 +43,7 @@ describe('Prueba de la api de productos', () => {
     });
 
     describe('[PUT]', () => {
-        it('(api/products) - Actualización de un producto', async () => {
+        it('(api/products/:id) - Actualización de un producto', async () => {
             const product = {
                 title: 'Esto es un producto modificado',
                 price: 350,
@@ -60,7 +60,7 @@ describe('Prueba de la api de productos', () => {
     });
 
     describe('[DELETE]', () => {
-        it('(api/products) - Eliminación de un producto', async () => {
+        it('(api/products/:id) - Eliminación de un producto', async () => {
             const response = await request.delete(`/api/products/${productId}`);
             console.log(response.body);
             

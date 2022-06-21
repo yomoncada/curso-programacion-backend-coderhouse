@@ -126,7 +126,7 @@ $ mocha test/advanced.mocha.api.test.js --timeout 60000 --exit
     matchedCount: 1
   }
 }
-      ✔ (api/products) - Actualización de un producto (336ms)
+      ✔ (api/products/:id) - Actualización de un producto (336ms)
     [DELETE]
 { success: true, data: { acknowledged: true, deletedCount: 1 } }
-      ✔ (api/products) - Eliminación de un producto (338ms)
+      ✔ (api/products/:id) - Eliminación de un producto (338ms)
