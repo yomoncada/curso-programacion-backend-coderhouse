@@ -1,6 +1,8 @@
+const RandomService = require('../services/random.services')
+
 class RandomControllers {
     constructor(service) {
-        this.service = service;
+        this.service = new RandomService;
         this.getRandoms = this.getRandoms.bind(this);
     }
 
@@ -10,7 +12,7 @@ class RandomControllers {
 
             let number = cant ?? 100000000;
 
-            const randoms = randomUtil.getRandoms(number);
+            const randoms = this.service.getRandoms(number);
             
             res.send(`El resultado es ${randoms}`);
         } catch (error) {

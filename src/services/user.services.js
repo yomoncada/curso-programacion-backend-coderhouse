@@ -2,12 +2,12 @@ const UserRepository = require('../repositories/user.repository')
 
 class UserService {
     constructor() {
-        this.UserRepository = new UserRepository;
+        this.repository = new UserRepository;
     }
 
     async getUser(id) {
         try {
-            return await this.UserRepository.get(id);
+            return await this.repository.get(id);
         } catch (error) {
             throw new Error(error.message);
         }
@@ -15,7 +15,7 @@ class UserService {
 
     async getUserByEmail(email) {
         try {
-            return await this.UserRepository.getByEmail(email);
+            return await this.repository.getByEmail(email);
         } catch (error) {
             throw new Error(error.message);
         }
@@ -23,7 +23,7 @@ class UserService {
 
     async createUser(user) {
         try {
-            return await this.UserRepository.create(user);
+            return await this.repository.create(user);
         } catch (error) {
             throw new Error(error.message);
         }

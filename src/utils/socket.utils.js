@@ -5,6 +5,8 @@ const ProductService = require('../services/product.services');
 const MessageService = require('../services/message.services');
 const loggerUtil = require('./logger.utils');
 
+const Product = new ProductService;
+
 const authorSchema = new schema.Entity('author');
 const messageSchema = new schema.Entity('message', {
     author: authorSchema
@@ -32,7 +34,7 @@ const eventsHandler = async (io, socket) => {
 
         const getProducts = async () => {
             try {
-                return await ProductService.getAllProducts();
+                return await Product.getProducts();
             } catch (error) {
                 throw new Error(error.message);
             }
@@ -61,7 +63,7 @@ const eventsHandler = async (io, socket) => {
             try {
                 await ProductService.createProduct(product);
         
-                const products = await ProductService.getAllProducts();
+                const products = await Product.getProducts();
         
                 socket.emit('products', products);
             } catch (error) {

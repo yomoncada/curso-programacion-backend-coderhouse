@@ -2,12 +2,12 @@ const MessageRepository = require('../repositories/message.repository')
 
 class MessageService {
     constructor() {
-        this.MessageRepository = new MessageRepository;
+        this.repository = new MessageRepository;
     }
 
     async getAllMessages() {
         try {
-            return await this.MessageRepository.getAll();
+            return await this.repository.getAll();
         } catch (error) {
             throw new Error(error.message);
         }
@@ -15,7 +15,7 @@ class MessageService {
 
     async createMessage(message) {
         try {
-            return await this.MessageRepository.create(message);
+            return await this.repository.create(message);
         } catch (error) {
             throw new Error(error.message);
         }

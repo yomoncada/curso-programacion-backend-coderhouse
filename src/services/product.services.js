@@ -2,12 +2,20 @@ const ProductRepository = require('../repositories/product.repository')
 
 class ProductService {
     constructor() {
-        this.ProductRepository = new ProductRepository;
+        this.repository = new ProductRepository;
     }
 
-    async getAllProducts() {
+    async getProducts() {
         try {
-            return await this.ProductRepository.getAll();
+            return await this.repository.getAll();
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+
+    async getProductById(id) {
+        try {
+            return await this.repository.get(id);
         } catch (error) {
             throw new Error(error.message);
         }
@@ -15,11 +23,27 @@ class ProductService {
 
     async createProduct(product) {
         try {
-            return await this.ProductRepository.create(product);
+            return await this.repository.create(product);
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+
+    async updateProductById(id, product) {
+        try {
+            return await this.repository.update(id, product);
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+
+    async deleteProductById(id) {
+        try {
+            return await this.repository.delete(id);
         } catch (error) {
             throw new Error(error.message);
         }
     }
 }
 
-module.exports = new ProductService();
+module.exports = ProductService;

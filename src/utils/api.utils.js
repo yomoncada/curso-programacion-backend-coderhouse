@@ -12,9 +12,9 @@ const apiSuccessResponse = (status, data) => ({
 	data
 });
 
-const apiErrorResponse = (errorItem) => {
+const apiErrorResponse = (error) => {
 	const statusItem = Object.keys(constants.STATUS)
-		.find(status => status.tag === errorItem.error);
+		.find(status => status.tag === error.error);
 
 	return {
 		error: true,

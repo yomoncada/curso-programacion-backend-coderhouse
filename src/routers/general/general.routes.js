@@ -1,12 +1,12 @@
 const { Router } = require('express');
 const compression = require('compression');
-const generalControllers = require('../../controllers/general.controllers');
+const GeneralControllers = require('../../controllers/general.controllers');
 
 const router = new Router();
 
-class generalRoutes {
+class GeneralRoutes {
     constructor() {
-      this.controller = new generalControllers();
+      this.controller = new GeneralControllers();
     }
 
     initialize(prefix = "") {
@@ -17,4 +17,4 @@ class generalRoutes {
     }
 }
 
-module.exports = new generalRoutes();
+module.exports = new GeneralRoutes();

@@ -1,19 +1,21 @@
 const express = require('express');
 const errorMiddleware = require('../middlewares/error.middleware');
 
-const generalRoutes = require('./general/general.routes');
-const randomsRoutes = require('./randoms/randoms.routes');
-const authRoutes = require('./auth/auth.routes');
-const errorRoutes = require('./error/error.routes');
-const webRoutes = require('./web/web.routes');
+const GeneralRoutes = require('./general/general.routes');
+const RandomsRoutes = require('./randoms/randoms.routes');
+const AuthRoutes = require('./auth/auth.routes');
+const ErrorRoutes = require('./error/error.routes');
+const WebRoutes = require('./web/web.routes');
+const ProductsRoutes = require('./products/products.routes');
 
 const router = express.Router();
 
-router.use(generalRoutes.initialize());
-router.use('/randoms', randomsRoutes.initialize());
-router.use(authRoutes.initialize());
-router.use(errorRoutes.initialize());
-router.use(webRoutes.initialize());
+router.use(GeneralRoutes.initialize());
+router.use(RandomsRoutes.initialize('/randoms'));
+router.use(ProductsRoutes.initialize('/api/products'));
+router.use(AuthRoutes.initialize());
+router.use(ErrorRoutes.initialize());
+router.use(WebRoutes.initialize());
 
 router.use(errorMiddleware);
 

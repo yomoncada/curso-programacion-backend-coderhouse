@@ -4,7 +4,7 @@ const authMiddleware = require('../../middlewares/auth.middleware');
 const loggerUtil = require('../../utils/logger.utils');
 
 const router = new Router();
-class Web {
+class WebRoutes {
     constructor() {
       this.controller = new WebControllers();
     }
@@ -20,4 +20,4 @@ class Web {
     }
 }
 
-module.exports = new Web();
+module.exports = new WebRoutes();
