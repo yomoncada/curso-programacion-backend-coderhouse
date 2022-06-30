@@ -5,8 +5,9 @@ const apiConstants = require('../../utils/constants/api.constants');
 
 const { 
     STATUS: { 
-      INTERNAL_ERROR,
-      NOT_FOUND
+        BAD_REQUEST,
+        INTERNAL_ERROR,
+        NOT_FOUND
     }
 } = apiConstants;
 
@@ -26,15 +27,7 @@ class MongoDBContainer {
                 const newError = formatErrorObject(NOT_FOUND.tag, errorMessage);
                 throw new Error(JSON.stringify(newError));
             } else {
-                data = {
-                    id: data._id,
-                    ...data
-                };
-                
-                delete data._id;
-
                 return data;
-
             }
 
         } catch (error) {
@@ -59,7 +52,7 @@ class MongoDBContainer {
             let newError;
 
             if (error.message.toLowerCase().includes('e11000') || error.message.toLowerCase().includes('duplicate')) {
-                newError = formatErrorObject(constants.STATUS.BAD_REQUEST, 'User with given email already exist');
+                newError = formatErrorObject(BAD_REQUEST.tag, 'User with given email already exist');
                 throw new Error(JSON.stringify(newError));
             } else {
                 newError = formatErrorObject(INTERNAL_ERROR.tag, error.message);

@@ -89,12 +89,8 @@ class ProductControllers {
         try {
             const { id } = req.params;
 
-            console.log(id);
-            
             const existingProduct = await this.service.getProductById(id);
           
-            console.log(existingProduct);
-
             if (!existingProduct) {
                 return res.status(404).json({ success: false, error: 'Producto no encontrado' });
             }

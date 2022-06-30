@@ -5,7 +5,8 @@ const ProductService = require('../services/product.services');
 const MessageService = require('../services/message.services');
 const loggerUtil = require('./logger.utils');
 
-const Product = new ProductService;
+const messageService = new MessageService;
+const productService = new ProductService;
 
 const authorSchema = new schema.Entity('author');
 const messageSchema = new schema.Entity('message', {
@@ -19,7 +20,7 @@ const eventsHandler = async (io, socket) => {
     try {
         const getMessages = async () => {
             try {
-                const messages = await MessageService.getAllMessages();
+                const messages = await messageService.getAllMessages();
         
                 const messagesToNormalize = {
                     id: 'messages',
@@ -34,7 +35,7 @@ const eventsHandler = async (io, socket) => {
 
         const getProducts = async () => {
             try {
-                return await Product.getProducts();
+                return await productService.getProducts();
             } catch (error) {
                 throw new Error(error.message);
             }
@@ -42,9 +43,9 @@ const eventsHandler = async (io, socket) => {
         
         const createMessage = async (message) => {
             try {
-                await MessageService.createMessage(message);
+                await messageService.createMessage(message);
         
-                const messages = await MessageService.getAllMessages();
+                const messages = await messageService.getAllMessages();
         
                 const messagesToNormalize = {
                     id: 'messages',
@@ -61,9 +62,9 @@ const eventsHandler = async (io, socket) => {
         
         const createProduct = async (product) => {
             try {
-                await ProductService.createProduct(product);
+                await productService.createProduct(product);
         
-                const products = await Product.getProducts();
+                const products = await productService.getProducts();
         
                 socket.emit('products', products);
             } catch (error) {
